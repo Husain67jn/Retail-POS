@@ -1,0 +1,164 @@
+/* Mughal Electric Store — application design system (Dark Mode).
+   Deep charcoal canvas, dark slate panels/cards, white headings, slate-grey
+   secondary text, royal-blue primary accent, red destructive accent.
+   Elevation itself is added in code (QGraphicsDropShadowEffect);
+   QSS cannot express shadows. */
+
+/* Global typography. The font family is injected from Settings -> Typography
+   (theme.build_theme) so a change restyles EVERY widget — sub-headers, product
+   cards, product/category/price labels, search fields, customer fields, and the
+   bill-discount inputs alike. Point size comes from the application font
+   (QApplication.setFont); the sized selectors below scale with the chosen size. */
+* { font-family: "%%FONT_FAMILY%%"; }
+
+/* Deep dark charcoal canvas. */
+QMainWindow { background: #0F172A; }
+QWidget { color: #E2E8F0; }
+
+/* ---- Sidebar / navigation shell ---- */
+#sidebar { background: #0F172A; }
+#brand { color: #F8FAFC; font-size: %%FS_BRAND%%px; font-weight: 800; }
+#subtitle { color: #94A3B8; font-size: %%FS_SUBTITLE%%px; padding-top: 1px; }
+#navigation { border: none; background: transparent; color: #CBD5E1; outline: none; }
+/* Active nav entry is a rounded blue pill; hover is a faint slate tint. */
+#navigation::item { padding: 10px 12px; border-radius: 9px; margin: 2px 0; }
+#navigation::item:selected { background: #2563EB; color: #F8FAFC; }
+#navigation::item:hover { background: #1E293B; }
+#sidebarVersion { color: #64748B; font-size: %%FS_SIDEBAR_VERSION%%px; }
+
+/* Collapse/expand arrow at the top of the sidebar. */
+#sidebarToggle { min-height: 0; padding: 0; border: none; border-radius: 7px; background: #1E293B; color: #CBD5E1; font-size: 16px; font-weight: 800; }
+#sidebarToggle:hover { background: #334155; color: #F8FAFC; }
+#sidebarToggle:pressed { background: #2563EB; color: #F8FAFC; }
+
+/* User profile card pinned to the bottom of the sidebar. */
+#profileCard { background: #1E293B; border: 1px solid #334155; border-radius: 10px; }
+#profileAvatar { background: #2563EB; color: #F8FAFC; border-radius: 17px; font-weight: 800; }
+#profileName { color: #F8FAFC; font-weight: 700; }
+#profileRole { color: #94A3B8; }
+
+/* ---- Page chrome ---- */
+QLabel#pageTitle { font-size: %%FS_PAGE_TITLE%%px; font-weight: 800; color: #F8FAFC; }
+QLabel#sectionTitle { font-size: %%FS_SECTION_TITLE%%px; font-weight: 700; color: #F8FAFC; }
+QLabel#cardHeader { font-size: %%FS_SECTION_TITLE%%px; font-weight: 800; color: #F8FAFC; padding-bottom: 2px; }
+QLabel#muted { color: #94A3B8; }
+
+/* ---- Inputs ---- */
+QLineEdit, QComboBox, QPlainTextEdit { min-height: 38px; border: 1px solid #334155; border-radius: 8px; padding: 6px 10px; background: #111827; color: #F1F5F9; }
+QLineEdit:focus, QComboBox:focus, QPlainTextEdit:focus { border: 1.5px solid #2563EB; }
+QLineEdit:disabled, QComboBox:disabled, QPlainTextEdit:disabled { background: #0F172A; color: #64748B; border-color: #1E293B; }
+/* Table-cell editors (POS Qty / Discount). min-height is explicitly released
+   to 0 so the 38px minimum on the generic QLineEdit rule above can never
+   inflate a control that lives inside a 24px table row; the real height is
+   assigned in code, derived from the row's usable height (pos_page
+   _CELL_INPUT_HEIGHT) so the field is neither clipped nor squeezed. */
+QLineEdit#quantityField { padding: 0px 4px; min-height: 0px; }
+
+/* ---- Buttons: default = SECONDARY tier (Edit, Search, Refresh, Generate PDF, dialog Cancel) ---- */
+QPushButton { min-height: 38px; padding: 6px 14px; border: 1px solid #334155; border-radius: 8px; background: #1E293B; color: #F1F5F9; font-weight: 600; }
+QPushButton:hover { background: #263548; }
+QPushButton:pressed { background: #334155; }
+QPushButton:focus { border: 1.5px solid #2563EB; }
+QPushButton:disabled { background: #16202F; color: #64748B; border-color: #1E293B; }
+
+/* PRIMARY tier: Complete Sale, Add Product, Save, Backup Database, Restore Database */
+QPushButton#primaryButton { background: #2563EB; color: #F8FAFC; border: 1px solid #2563EB; min-height: 42px; font-size: %%FS_PRIMARY_BTN%%pt; }
+QPushButton#primaryButton:hover { background: #1D4ED8; border-color: #1D4ED8; }
+QPushButton#primaryButton:pressed { background: #1E40AF; border-color: #1E40AF; }
+QPushButton#primaryButton:focus { border: 1.5px solid #93B4F7; }
+QPushButton#primaryButton:disabled { background: #1E3A66; border-color: #1E3A66; color: #64748B; }
+
+/* DESTRUCTIVE tier: Delete, and the Restore confirmation path */
+QPushButton#destructiveButton { background: #DC2626; color: #F8FAFC; border: 1px solid #DC2626; }
+QPushButton#destructiveButton:hover { background: #B91C1C; border-color: #B91C1C; }
+QPushButton#destructiveButton:pressed { background: #991B1B; border-color: #991B1B; }
+QPushButton#destructiveButton:focus { border: 1.5px solid #F87171; }
+
+/* Small inline "Remove" action inside the cart table. Like the cell editors
+   above, its min-height is released to 0 — the 38px QPushButton minimum would
+   otherwise force every bill row taller than the compact baseline. Its square
+   size is set in code alongside the row editors. */
+QPushButton#rowRemoveButton { min-height: 0px; padding: 0px; background: transparent; color: #F87171; border: 1px solid #7F1D1D; }
+QPushButton#rowRemoveButton:hover { background: #2A1315; }
+
+/* ---- Containers: cards ---- */
+/* Card frames (app.ui.widgets.Card) and section group boxes share the same
+   dark, rounded, crisp-bordered look; their drop shadow is added in code. */
+QFrame#card { background: #1E293B; border: 1px solid #334155; border-radius: 12px; }
+QGroupBox { background: #1E293B; border: 1px solid #334155; border-radius: 12px; margin-top: 12px; padding: 14px; font-weight: 800; }
+QGroupBox::title { subcontrol-origin: margin; left: 14px; padding: 0 5px; color: #F8FAFC; }
+
+/* ---- Tables ---- */
+/* Slate grid dividers so rows and customer/product boxes never look flat
+   or invisible; cells and headers are left-aligned in code (widgets.py). */
+QTableWidget { background: #1E293B; border: 1px solid #334155; border-radius: 10px; gridline-color: #334155; alternate-background-color: #162032; selection-background-color: #2563EB; selection-color: #F8FAFC; outline: none; }
+QTableWidget::item { padding: 10px 12px; border-bottom: 1px solid #334155; }
+QTableWidget::item:focus { outline: none; border: none; border-bottom: 1px solid #334155; }
+QAbstractItemView { outline: none; }
+QTableWidget::item:selected { background: #2563EB; color: #F8FAFC; }
+QHeaderView::section { background: #0F172A; padding: 10px 10px; border: none; border-bottom: 1px solid #334155; font-weight: 700; color: #94A3B8; }
+
+/* ---- Trees (Inventory grouped / accordion view) ---- */
+/* The grouped State B view is a QTreeWidget; without these it would fall back
+   to Qt's default light palette and read as a washed-out white island on an
+   otherwise dark page. Mirror the QTableWidget surface, dividers, alternating
+   rows and blue selection so State A (flat table) and State B (accordion) look
+   like the same table re-shaped into groups. */
+QTreeView, QTreeWidget { background: #1E293B; border: 1px solid #334155; border-radius: 10px; alternate-background-color: #162032; selection-background-color: #2563EB; selection-color: #F8FAFC; outline: none; }
+QTreeView::item, QTreeWidget::item { padding: 8px 8px; border-bottom: 1px solid #263449; color: #F1F5F9; }
+QTreeView::item:selected, QTreeWidget::item:selected { background: #2563EB; color: #F8FAFC; }
+QTreeView::branch { background: #1E293B; }
+
+/* ---- Dashboard cards / totals ---- */
+QFrame#dashboardCard, QFrame#totalCard { background: #1E293B; border: 1px solid #334155; border-radius: 10px; }
+QLineEdit#billDiscountField, QLineEdit#receivedAmountField, QLineEdit#customerNameField { min-height: 42px; border: 1.5px solid #334155; background: #111827; font-weight: 600; }
+QLineEdit#billDiscountField:focus, QLineEdit#receivedAmountField:focus, QLineEdit#customerNameField:focus { border: 2px solid #2563EB; }
+QComboBox#paymentMethodField { min-height: 42px; border: 1.5px solid #334155; background: #111827; font-weight: 600; }
+QComboBox#paymentMethodField:focus { border: 2px solid #2563EB; }
+QLabel#dashboardValue { font-size: %%FS_DASHBOARD_VALUE%%px; font-weight: 800; color: #F8FAFC; padding-top: 4px; }
+QLabel#totalValue { font-size: %%FS_TOTAL_VALUE%%px; font-weight: 800; color: #F8FAFC; }
+QLabel#cardIcon { padding-bottom: 2px; }
+
+/* ---- Status / messaging ---- */
+QLabel#customerBanner { background: #12233D; border: 1px solid #1E3A66; border-radius: 8px; padding: 9px; font-weight: 700; color: #DBEAFE; }
+QLabel#validationError { color: #F87171; font-weight: 600; }
+QLabel#successMessage { color: #4ADE80; font-weight: 600; }
+QMessageBox { background: #0B0F19; }
+
+/* ---- Dialogs ---- */
+QDialog { background: #0B0F19; }
+QDialog QLabel#dialogTitle { font-size: 16px; font-weight: 800; color: #F8FAFC; }
+QDialog QLabel#dialogSubtitle { color: #94A3B8; font-size: 12px; }
+
+/* ---- Tabs (Cash / Credit invoices) ---- */
+QTabWidget::pane { border: 1px solid #334155; background: #1E293B; border-radius: 10px; }
+QTabBar::tab { padding: 9px 16px; margin-right: 3px; border: 1px solid transparent; font-weight: 600; color: #94A3B8; }
+QTabBar::tab:selected { background: #1E293B; border-color: #334155; border-bottom-color: #1E293B; border-top-left-radius: 8px; border-top-right-radius: 8px; font-weight: 700; color: #F8FAFC; }
+/* Billing's multi-bill strip carries up to 5 tabs, so it runs tighter than the
+   app's two-tab strips — this keeps all 5 on one line and spends less of the
+   bill panel's height on the tabs than on the items themselves. */
+QTabBar#billTabs::tab { padding: 5px 11px; margin-right: 2px; }
+
+/* ---- Settings page scroll container ---- */
+QScrollArea#settingsScroll { background: transparent; border: none; }
+QWidget#settingsScrollContent { background: transparent; }
+
+/* ---- Scrollbars ---- */
+/* Pixel-precise scrolling is enabled in code (widgets.enable_smooth_scrolling);
+   these rules keep the track visually quiet so continuous movement doesn't
+   show default page-fill banding behind the handle. */
+QScrollBar:vertical { width: 10px; margin: 2px; background: transparent; }
+QScrollBar::handle:vertical { min-height: 30px; border-radius: 5px; background: #334155; }
+QScrollBar::handle:vertical:hover { background: #475569; }
+QScrollBar::handle:vertical:pressed { background: #64748B; }
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: transparent; }
+QScrollBar:horizontal { height: 10px; margin: 2px; background: transparent; }
+QScrollBar::handle:horizontal { min-width: 30px; border-radius: 5px; background: #334155; }
+QScrollBar::handle:horizontal:hover { background: #475569; }
+QScrollBar::handle:horizontal:pressed { background: #64748B; }
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal { width: 0px; }
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal { background: transparent; }
+
+/* ---- Tooltips ---- */
+QToolTip { background: #1E293B; color: #F8FAFC; border: 1px solid #334155; padding: 5px 8px; border-radius: 5px; }

@@ -1,0 +1,10 @@
+PyQt5>=5.15,<6
+SQLAlchemy>=2.0,<3
+reportlab>=4.0,<5
+openpyxl>=3.1,<4
+
+# 'openpyxl' (listed above) also powers the optional in-app .xlsx preview in
+# Notes & Docs' Document Vault; without it that one file type falls back to a
+# message + "Open Externally". PDFs no longer need any extra package — they
+# open in the operating system's own default PDF viewer, so the former
+# PyQtWebEngine dependency has been removed entirely.
